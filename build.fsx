@@ -164,6 +164,8 @@ Target "All" DoNothing
   ==> "CleanDocs"
   ==> "GenerateDocs"
   ==> "ReleaseDocs"
+
+"All" 
   ==> "NuGet"
   ==> "Release"
 
