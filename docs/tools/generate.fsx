@@ -16,7 +16,7 @@ let info =
     "project-author", "Your Name"
     "project-summary", "A short summary of your project"
     "project-github", githubLink
-    "project-nuget", "http://nuget.com/packages/FSharp.Collections.ParallelSeq" ]
+    "project-nuget", "https://www.nuget.org/packages/FSharp.Collections.ParallelSeq" ]
 
 // --------------------------------------------------------------------------------------
 // For typical project, no changes are needed below
