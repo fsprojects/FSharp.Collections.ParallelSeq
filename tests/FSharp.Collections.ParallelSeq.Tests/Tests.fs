@@ -33,11 +33,10 @@ let VerifyPSeqsEqual seq1 seq2 =
     let len1 = PSeq.length seq1
     let len2 = PSeq.length seq2
     if len1 <> len2 then Assert.Fail(sprintf "seqs not equal length: %d and %d" len1 len2)
-    let set1 = set seq1
-    let set2 = set seq2
-    if set1 = set2
-    then ()
-    else Assert.Fail(sprintf "contents not the same: %A %A" set1 set2)
+    else
+        let set1 = set seq1
+        let set2 = set seq2
+        if set1 <> set2 then Assert.Fail(sprintf "contents not the same: %A %A" set1 set2)
 
 [<Test>]
 let TestAppend() =
@@ -327,12 +326,10 @@ let TestConcat() =
     let expectedStrSeq = seq ['a';'a';'a';'b';'b';'a';'b';'b';]
     VerifyPSeqsEqual expectedStrSeq conStrSeq
         
-//        // Empty Seq
-//        let emptySeqs = seq [seq[ PSeq.empty;PSeq.empty];seq[ PSeq.empty;PSeq.empty]]
-//        let conEmptySeq = PSeq.concat emptySeqs
-//        let expectedEmptySeq =seq { for i in 1..4 do yield PSeq.empty}
-//        
-//        VerifyPSeqsEqual expectedEmptySeq conEmptySeq   
+    // Empty Seq
+    let emptySeqs = seq [PSeq.empty;PSeq.empty;PSeq.empty;PSeq.empty]
+    let conEmptySeq = PSeq.concat emptySeqs
+    VerifyPSeqsEqual conEmptySeq Seq.empty
 
     // null Seq
     let nullSeq:seq<'a> = null
