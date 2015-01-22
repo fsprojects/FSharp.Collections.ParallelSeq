@@ -1,8 +1,12 @@
+[![Issue Stats](http://issuestats.com/github/fsprojects/FSharp.Collections.ParallelSeq/badge/issue)](http://issuestats.com/github/fsprojects/FSharp.Collections.ParallelSeq)
+[![Issue Stats](http://issuestats.com/github/fsprojects/FSharp.Collections.ParallelSeq/badge/pr)](http://issuestats.com/github/fsprojects/FSharp.Collections.ParallelSeq)
+
 FSharp.Collections.ParallelSeq
 ==============================
 
 Parallel (multi-core) sequence operations. See the documentation: http://fsprojects.github.io/FSharp.Collections.ParallelSeq/
 
+[![NuGet Status](http://img.shields.io/nuget/v/FSharp.Collections.ParallelSeq.svg?style=flat)](https://www.nuget.org/packages/FSharp.Collections.ParallelSeq/)
 
 ### Maintainer(s)
 
