@@ -50,7 +50,7 @@ module PSeq =
         ParallelEnumerable.All(toP(s), Func<_,_>(p))
 
     let exists2 (f : 'T -> 'U -> bool) s1 s2 = 
-        ParallelEnumerable.Any(ParallelEnumerable.Zip(toP(s1), toP(s2),Func<_,_,_>(f)))
+        ParallelEnumerable.Any(ParallelEnumerable.Zip(toP(s1), toP(s2),Func<_,_,_>(f)), Func<_,_>(id))
 
     let forall2 (f : 'T -> 'U -> bool) s1 s2 = 
         ParallelEnumerable.All(ParallelEnumerable.Zip(toP(s1), toP(s2),Func<_,_,_>(f)), Func<_,_>(id))
