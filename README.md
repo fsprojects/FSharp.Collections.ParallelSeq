@@ -6,6 +6,9 @@ FSharp.Collections.ParallelSeq
 
 Parallel (multi-core) sequence operations. See the documentation: http://fsprojects.github.io/FSharp.Collections.ParallelSeq/
 
+[![Build status](https://ci.appveyor.com/api/projects/status/7uaow0us61r19ox7/branch/master?svg=true)](https://ci.appveyor.com/project/fsprojectsgit/fsharp-collections-parallelseq/branch/master) (Windows)
+
+
 [![NuGet Status](http://img.shields.io/nuget/v/FSharp.Collections.ParallelSeq.svg?style=flat)](https://www.nuget.org/packages/FSharp.Collections.ParallelSeq/)
 
 ### Maintainer(s)
