@@ -18,5 +18,10 @@
   </metadata>
   <files>
     <file src="..\bin\FSharp.Collections.ParallelSeq.dll" target="lib/net40" />
+    <file src="..\bin\FSharp.Collections.ParallelSeq.xml" target="lib/net40" />
+    <file src="..\bin\FSharp.Collections.ParallelSeq.pdb" target="lib/net40" />
+    <file src="..\bin\profile7\FSharp.Collections.ParallelSeq.dll" target="lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1" />
+    <file src="..\bin\profile7\FSharp.Collections.ParallelSeq.xml" target="lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1" />
+    <file src="..\bin\profile7\FSharp.Collections.ParallelSeq.pdb" target="lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1" />
   </files>
 </package>
