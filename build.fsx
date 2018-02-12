@@ -87,8 +87,8 @@ Target "CleanDocs" (fun _ ->
 // Build library & test project
 
 Target "Build" (fun _ ->
-    !! (solutionFile + "*.sln")
-    |> MSBuildRelease "" "Rebuild"
+    //!! (solutionFile + "*.sln")
+    Fake.DotNetCli.Build id
     |> ignore
 )
 
@@ -96,13 +96,7 @@ Target "Build" (fun _ ->
 // Run the unit tests using test runner
 
 Target "RunTests" (fun _ ->
-    !! testAssemblies 
-    |> NUnit (fun p ->
-        { p with
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 20.
-            OutputFile = "TestResults.xml" })
-)
+    Fake.DotNetCli.Test (fun c -> { c with Project = "tests/FSharp.Collections.ParallelSeq.Tests/" }))
 
 // --------------------------------------------------------------------------------------
 // Build a NuGet package
@@ -154,7 +148,7 @@ Target "Release" DoNothing
 Target "All" DoNothing
 
 "Clean"
-  ==> "RestorePackages"
+//   ==> "RestorePackages"
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "RunTests"
