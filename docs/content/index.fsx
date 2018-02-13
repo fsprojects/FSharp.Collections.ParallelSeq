@@ -7,8 +7,8 @@
 F# Parallel Sequences
 ===================
 
-This component provides F#-style API for parallel operations on sequences that are part of 
-.NET 4.0 as System.Linq.ParallelEnumerable class. The API is akin to F# operations on sequences.
+This library provides an F#-style API for the parallel operations on sequences from the
+System.Linq.ParallelEnumerable class in .NET 4.0. The API is akin to F# operations on sequences.
 
 
 <div class="row">
@@ -25,7 +25,7 @@ This component provides F#-style API for parallel operations on sequences that a
 Example
 -------
 
-This example demonstrates using a function defined in this sample library.
+This example demonstrates the use of a function defined in this library.
 
 *)
 #r "FSharp.Collections.ParallelSeq.dll"
@@ -39,18 +39,12 @@ let finalDigitOfPrimes =
         |> PSeq.map (fun (k, vs) -> (k, Seq.length vs))
         |> PSeq.toArray  
 (**
-Some more info
-
 Samples & documentation
 -----------------------
 
-The library comes with comprehensible documentation. 
-It can include a tutorials automatically generated from `*.fsx` files in [the content folder][content]. 
-The API reference is automatically generated from Markdown comments in the library implementation.
+ * The [tutorial](tutorial.html) contains a further example.
 
- * [Tutorial](tutorial.html) contains a further explanation of this sample library.
-
- * [API Reference](reference/index.html) contains automatically generated documentation for all types, modules
+ * The [API Reference](reference/index.html) contains automatically generated documentation for all types, modules
    and functions in the library. This includes additional brief samples on using most of the
    functions.
  
