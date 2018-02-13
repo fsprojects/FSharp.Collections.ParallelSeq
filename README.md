@@ -13,7 +13,9 @@ Parallel (multi-core) sequence operations. See the documentation: http://fsproje
 
 ### Maintainer(s)
 
-- [@mydogisbox](https://github.com/mydogisbox)
+- [@ChrSteinert](https://github.com/ChrSteinert)
+- [@jamessdixon](https://github.com/jamessdixon)
+- [@kapilash](https://github.com/kapilash)
 
 The default maintainer account for projects under "fsprojects" is [@fsprojectsgit](https://github.com/fsprojectsgit) - F# Community Project Incubation Space (repo management)
 
