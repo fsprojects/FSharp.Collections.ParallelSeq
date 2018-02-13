@@ -87,7 +87,6 @@ Target "CleanDocs" (fun _ ->
 // Build library & test project
 
 Target "Build" (fun _ ->
-    //!! (solutionFile + "*.sln")
     Fake.DotNetCli.Build id
     |> ignore
 )
@@ -148,7 +147,6 @@ Target "Release" DoNothing
 Target "All" DoNothing
 
 "Clean"
-//   ==> "RestorePackages"
   ==> "AssemblyInfo"
   ==> "Build"
   ==> "RunTests"
