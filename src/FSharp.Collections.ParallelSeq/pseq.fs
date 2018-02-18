@@ -284,3 +284,6 @@ module PSeq =
     
     let withCancellation cancellationToken s = 
         toP(s).WithCancellation(cancellationToken)
+
+    let cache s = 
+        toP(Seq.cache s)

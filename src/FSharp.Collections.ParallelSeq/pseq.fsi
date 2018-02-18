@@ -37,7 +37,6 @@ namespace FSharp.Collections.ParallelSeq
         // [<CompiledName("Append")>]
         val append: source1:seq<'T>  -> source2:seq<'T> -> pseq<'T> 
 
-
         /// <summary>Operates in parallel, using System.Linq.Parallel. Wraps a loosely-typed System.Collections sequence as a typed sequence.</summary>
         ///
         /// <remarks>The use of this function usually requires a type annotation.
@@ -85,7 +84,6 @@ namespace FSharp.Collections.ParallelSeq
         // [<CompiledName("Collect")>]
         val collect: mapping:('T -> 'Collection) -> source:seq<'T> -> pseq<'U>  when 'Collection :> seq<'U>
 
-
         /// <summary>Operates in parallel, using System.Linq.Parallel. Combines the given enumeration-of-enumerations as a single concatenated
         /// enumeration.</summary>
         ///
@@ -99,7 +97,6 @@ namespace FSharp.Collections.ParallelSeq
         /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
         // [<CompiledName("Concat")>]
         val concat: sources:seq<'Collection> -> pseq<'T> when 'Collection :> seq<'T>
-
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Applies a key-generating function to each element of a sequence and return a sequence yielding unique
         /// keys and their number of occurrences in the original sequence.</summary>
@@ -147,8 +144,8 @@ namespace FSharp.Collections.ParallelSeq
         /// <summary>Operates in parallel, using System.Linq.Parallel. Creates an empty sequence.</summary>
         ///
         /// <returns>The result sequence.</returns>
-        [<GeneralizableValueAttribute>]
         // [<CompiledName("Empty")>]
+        [<GeneralizableValueAttribute>]
         val empty<'T> : pseq<'T>
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Tests if any element of the sequence satisfies the given predicate.</summary>
@@ -324,7 +321,6 @@ namespace FSharp.Collections.ParallelSeq
         // [<CompiledName("Initialize")>]
         val init: count:int -> initializer:(int -> 'T) -> pseq<'T>
         
-
         /// <summary>Operates in parallel, using System.Linq.Parallel. Applies the given function to each element of the collection.</summary>
         ///
         /// <param name="action">A function to apply to each element of the sequence.</param>
@@ -426,7 +422,6 @@ namespace FSharp.Collections.ParallelSeq
         // [<CompiledName("Get")>]
         val nth: index:int -> source:seq<'T> -> 'T
 
-
         // [<CompiledName("OfArray")>]
         /// <summary>Operates in parallel, using System.Linq.Parallel. Views the given array as a sequence.</summary>
         ///
@@ -444,7 +439,6 @@ namespace FSharp.Collections.ParallelSeq
         ///
         /// <returns>The result sequence.</returns>
         val ofList: source:'T list -> pseq<'T>
-
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Applies the given function to successive elements, returning the first
         /// <c>x</c> where the function returns "Some(x)".</summary>
@@ -475,7 +469,6 @@ namespace FSharp.Collections.ParallelSeq
         /// <exception cref="System.ArgumentException">Thrown when the input sequence is empty.</exception>
         // [<CompiledName("Reduce")>]
         val reduce: reduction:('T -> 'T -> 'T) -> source:seq<'T> -> 'T
-
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Returns a sequence that yields one item only.</summary>
         ///
@@ -603,7 +596,6 @@ namespace FSharp.Collections.ParallelSeq
         // [<CompiledName("TryFindIndex")>]
         val tryFindIndex : predicate:('T -> bool) -> source:seq<'T> -> int option
 
-
         /// <summary>Operates in parallel, using System.Linq.Parallel. Returns a sequence that when enumerated returns at most N elements.</summary>
         ///
         /// <param name="count">The maximum number of items to enumerate.</param>
@@ -614,7 +606,6 @@ namespace FSharp.Collections.ParallelSeq
         /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
         // [<CompiledName("Truncate")>]
         val truncate: count:int -> source:seq<'T> -> pseq<'T>
-
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Combines the two sequences into a list of pairs. The two sequences need not have equal lengths:
         /// when one sequence is exhausted any remaining elements in the other
@@ -629,8 +620,6 @@ namespace FSharp.Collections.ParallelSeq
         // [<CompiledName("Zip")>]
         val zip: source1:seq<'T1> -> source2:seq<'T2> -> pseq<'T1 * 'T2>
 
-
-
         val ordered: source:seq<'T> -> pseq<'T>
 
         val withDegreeOfParallelism: n:int -> source:seq<'T> -> pseq<'T>
@@ -640,93 +629,6 @@ namespace FSharp.Collections.ParallelSeq
         val withMergeOptions: mergeOptions:ParallelMergeOptions -> source:seq<'T> -> pseq<'T>
 
         val withCancellation: cancellationToken:CancellationToken -> source:seq<'T> -> pseq<'T>
-
-
-// These are not available:
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Returns the first N elements of the sequence.</summary>
-        /// <remarks>Throws <c>InvalidOperationException</c>
-        /// if the count exceeds the number of elements in the sequence. <c>Seq.truncate</c>
-        /// returns as many items as the sequence contains instead of throwing an exception.</remarks>
-        ///
-        /// <param name="count">The number of items to take.</param>
-        /// <param name="source">The input sequence.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-        ///
-        /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
-        /// <exception cref="System.ArgumentException">Thrown when the input sequence is empty.</exception>
-        /// <exception cref="System.InvalidOperationException">Thrown when count exceeds the number of elements
-        /// in the sequence.</exception>
-//        [<CompiledName("Take")>]
-//        val take: count:int -> source:seq<'T> -> seq<'T>
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Applies the given function to successive elements, returning the first
-        /// result where the function returns "Some(x)".</summary>
-        ///
-        /// <param name="chooser">A function that transforms items from the input sequence into options.</param>
-        /// <param name="source">The input sequence.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-        ///
-        /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
-//        [<CompiledName("TryPick")>]
-//        val tryPick: chooser:('T -> 'U option) -> source:seq<'T> -> 'U option
-
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Returns a sequence that contains the elements generated by the given computation.
-        /// The given initial <c>state</c> argument is passed to the element generator.
-        /// For each IEnumerator elements in the stream are generated on-demand by applying the element
-        /// generator, until a None value is returned by the element generator. Each call to the element
-        /// generator returns a new residual <c>state</c>.</summary>
-        ///
-        /// <remarks>The stream will be recomputed each time an IEnumerator is requested and iterated for the Seq.
-        ///
-        /// The returned sequence may be passed between threads safely. However, 
-        /// individual IEnumerator values generated from the returned sequence should not be accessed concurrently.</remarks>
-        ///
-        /// <param name="generator">A function that takes in the current state and returns an option tuple of the next
-        /// element of the sequence and the next state value.</param>
-        /// <param name="state">The initial state value.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-//        [<CompiledName("Unfold")>]
-//        val unfold   : generator:('State -> ('T * 'State) option) -> state:'State -> seq<'T>
-
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Returns a sequence that yields sliding windows of containing elements drawn from the input
-        /// sequence. Each window is returned as a fresh array.</summary>
-        ///
-        /// <param name="windowSize">The number of elements in each window.</param>
-        /// <param name="source">The input sequence.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-        ///
-        /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
-        /// <exception cref="System.ArgumentException">Thrown when the input sequence is empty.</exception>
-//        [<CompiledName("Windowed")>]
-//        val windowed: windowSize:int -> source:seq<'T> -> seq<'T[]>
-
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Combines the three sequences into a list of triples. The sequences need not have equal lengths:
-        /// when one sequence is exhausted any remaining elements in the other
-        /// sequences are ignored.</summary>
-        ///
-        /// <param name="source1">The first input sequence.</param>
-        /// <param name="source2">The second input sequence.</param>
-        /// <param name="source3">The third input sequence.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-        ///
-        /// <exception cref="System.ArgumentNullException">Thrown when any of the input sequences is null.</exception>
-//        [<CompiledName("Zip3")>]
-//        val zip3: source1:seq<'T1> -> source2:seq<'T2> -> source3:seq<'T3> -> seq<'T1 * 'T2 * 'T3>
-
         /// <summary>Operates in parallel, using System.Linq.Parallel. Returns the sum of the elements in the sequence.</summary>
         ///
         /// <remarks>The elements are summed using the <c>+</c> operator and <c>Zero</c> property associated with the generated type.</remarks>
@@ -734,7 +636,7 @@ namespace FSharp.Collections.ParallelSeq
         /// <param name="source">The input sequence.</param>
         ///
         /// <returns>The result sequence.</returns>
-//        [<CompiledName("Sum")>]
+        //[<CompiledName("Sum")>]
         val inline sum   : source:seq<(^T)> -> ^T 
                                       when ^T : (static member ( + ) : ^T * ^T -> ^T) 
                                       and  ^T : (static member Zero : ^T)
@@ -746,38 +648,10 @@ namespace FSharp.Collections.ParallelSeq
         /// <param name="source">The input sequence.</param>
         ///
         /// <returns>The result sequence.</returns>
-//        [<CompiledName("SumBy")>]
+        //[<CompiledName("SumBy")>]
         val inline sumBy   : projection:('T -> ^U) -> source:seq<'T>  -> ^U 
                                       when ^U : (static member ( + ) : ^U * ^U -> ^U) 
                                       and  ^U : (static member Zero : ^U)
-
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Like fold, but computes on-demand and returns the sequence of intermediary and final results.</summary>
-        ///
-        /// <param name="folder">A function that updates the state with each element from the sequence.</param>
-        /// <param name="state">The initial state.</param>
-        /// <param name="source">The input sequence.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-        ///
-        /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
-//        [<CompiledName("Scan")>]
-//        val scan<'T,'State> : folder:('State -> 'T -> 'State) -> state:'State -> source:seq<'T> -> seq<'State>
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Builds a new sequence object that delegates to the given sequence object. This ensures 
-        /// the original sequence cannot be rediscovered and mutated by a type cast. For example, 
-        /// if given an array the returned sequence will return the elements of the array, but
-        /// you cannot cast the returned sequence object to an array.</summary>
-        ///
-        /// <param name="source">The input sequence.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-        ///
-        /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
-//        [<CompiledName("ReadOnly")>]
-//        val readonly : source:seq<'T> -> seq<'T>
-//
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Returns the lowest of all elements of the sequence, compared via <c>Operators.min</c>.</summary>
         ///
@@ -787,7 +661,7 @@ namespace FSharp.Collections.ParallelSeq
         ///
         /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when the input sequence is empty.</exception>
-//        [<CompiledName("Min")>]
+        //[<CompiledName("Min")>]
         val inline min     : source:seq<(^T)> -> ^T when ^T : comparison 
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Returns the lowest of all elements of the sequence, compared via Operators.min on the function result.</summary>
@@ -799,22 +673,8 @@ namespace FSharp.Collections.ParallelSeq
         ///
         /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when the input sequence is empty.</exception>
-//        [<CompiledName("MinBy")>]
+        //[<CompiledName("MinBy")>]
         val inline minBy  : projection:(^T -> ^U) -> source:seq<(^T)> -> ^T when ^U : comparison 
-
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Returns a sequence of each element in the input sequence and its predecessor, with the
-        /// exception of the first element which is only returned as the predecessor of the second element.</summary>
-        ///
-        /// <param name="source">The input sequence.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-        ///
-        /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
-//        [<CompiledName("Pairwise")>]
-//        val pairwise: source:seq<'T> -> seq<'T * 'T>
-
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Returns the greatest of all elements of the sequence, compared via Operators.max</summary>
         ///
@@ -824,7 +684,7 @@ namespace FSharp.Collections.ParallelSeq
         /// <exception cref="System.ArgumentException">Thrown when the input sequence is empty.</exception>
         ///
         /// <returns>The result sequence.</returns>
-//        [<CompiledName("Max")>]
+        //[<CompiledName("Max")>]
         val inline max     : source:seq<(^T)> -> ^T when ^T : comparison 
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Returns the greatest of all elements of the sequence, compared via Operators.max on the function result.</summary>
@@ -836,56 +696,8 @@ namespace FSharp.Collections.ParallelSeq
         ///
         /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when the input sequence is empty.</exception>
-//        [<CompiledName("MaxBy")>]
+        //[<CompiledName("MaxBy")>]
         val inline maxBy  : projection:(^T -> ^U) -> source:seq<(^T)> -> ^T when ^U : comparison 
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Generates a new sequence which, when iterated, will return successive
-        /// elements by calling the given function.  The results of calling the function
-        /// will not be saved, that is the function will be reapplied as necessary to
-        /// regenerate the elements.  The function is passed the index of the item being
-        /// generated.</summary>
-        ///
-        /// <remarks>The returned sequence may be passed between threads safely. However, 
-        /// individual IEnumerator values generated from the returned sequence should not be accessed concurrently.
-        /// Iteration can continue up to <c>Int32.MaxValue</c>.</remarks>
-        ///
-        /// <param name="initializer">A function that generates an item in the sequence from a given index.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-//        [<CompiledName("InitializeInfinite")>]
-//        val initInfinite: initializer:(int -> 'T) -> seq<'T>
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Returns a sequence that is built from the given delayed specification of a
-        /// sequence.</summary>
-        ///
-        /// <remarks>The input function is evaluated each time an IEnumerator for the sequence 
-        /// is requested.</remarks>
-        ///
-        /// <param name="generator">The generating function for the sequence.</param>
-//        [<CompiledName("Delay")>]
-//        val delay   : generator:(unit -> seq<'T>) -> seq<'T>
-//
-
-
-        /// <summary>Operates in parallel, using System.Linq.Parallel. Compares two sequences using the given comparison function, element by element.
-        /// Returns the first non-zero result from the comparison function.  If the end of a sequence
-        /// is reached it returns a -1 if the first sequence is shorter and a 1 if the second sequence
-        /// is shorter.</summary>
-        ///
-        /// <param name="comparer">A function that takes an element from each sequence and returns an int.
-        /// If it evaluates to a non-zero value iteration is stopped and that value is returned.</param>
-        /// <param name="source1">The first input sequence.</param>
-        /// <param name="source2">The second input sequence.</param>
-        ///
-        /// <returns>The result sequence.</returns>
-        ///
-        /// <exception cref="System.ArgumentNullException">Thrown when either of the input sequences
-        /// is null.</exception>
-//        [<CompiledName("CompareWith")>]
-//        val compareWith: comparer:('T -> 'T -> int) -> source1:seq<'T> -> source2:seq<'T> -> int
-
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Returns a sequence that corresponds to a cached version of the input sequence.
         /// This result sequence will have the same elements as the input sequence. The result 
@@ -914,9 +726,8 @@ namespace FSharp.Collections.ParallelSeq
         /// <returns>The result sequence.</returns>
         ///
         /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
-//        [<CompiledName("Cache")>]
-//        val cache: source:seq<'T> -> seq<'T>
-
+        //[<CompiledName("Cache")>]
+        val cache: source:seq<'T> -> pseq<'T>
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Returns the average of the elements in the sequence.</summary>
         ///
@@ -929,7 +740,7 @@ namespace FSharp.Collections.ParallelSeq
         ///
         /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when the input sequence has zero elements.</exception>
-//        [<CompiledName("Average")>]
+        //[<CompiledName("Average")>]
         val inline average   : source:seq<(^T)> -> ^T 
                                       when ^T : (static member ( + ) : ^T * ^T -> ^T) 
                                       and  ^T : (static member DivideByInt : ^T * int -> ^T) 
@@ -948,9 +759,8 @@ namespace FSharp.Collections.ParallelSeq
         ///
         /// <exception cref="System.ArgumentNullException">Thrown when the input sequence is null.</exception>
         /// <exception cref="System.ArgumentException">Thrown when the input sequence has zero elements.</exception>
-//        [<CompiledName("AverageBy")>]
+        //[<CompiledName("AverageBy")>]
         val inline averageBy   : projection:('T -> ^U) -> source:seq<'T>  -> ^U 
                                       when ^U : (static member ( + ) : ^U * ^U -> ^U) 
                                       and  ^U : (static member DivideByInt : ^U * int -> ^U) 
-                                      and  ^U : (static member Zero : ^U)
-
+                                      and  ^U : (static member Zero : ^U)        

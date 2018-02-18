@@ -6,6 +6,7 @@ open System.Linq
 open System.Collections.Generic
 open FSharp.Collections.ParallelSeq
 open NUnit.Framework
+open System.Threading
 
 /// Check that the lamda throws an exception of the given type. Otherwise
 /// calls Assert.Fail()
@@ -153,46 +154,46 @@ let TestAverageBy() =
     CheckThrowsArgumentNullException (fun () -> PSeq.averageBy (fun (x:double)->x+4.0) nullSeq |> ignore) 
     ()
         
-//    [<Test>]
-//    let TestCache() =
-//        // empty Seq 
-//        let emptySeq:pseq<double> = PSeq.empty<double>
-//        
-//        let cacheEmpty = PSeq.cache emptySeq
-//        
-//        let expectedResultEmpty = PSeq.empty
-//        
-//        VerifyPSeqsEqual expectedResultEmpty cacheEmpty
-//               
-//        // double Seq
-//        let doubleSeq:seq<double> = seq [1.0;2.2;2.5;4.3]
-//        
-//        let cacheDouble = PSeq.cache doubleSeq
-//        
-//        VerifyPSeqsEqual doubleSeq cacheDouble
-//        
-//            
-//        // float32 Seq
-//        let floatSeq:seq<float32> = seq [ 2.0f;4.4f;5.0f;8.6f]
-//        
-//        let cacheFloat = PSeq.cache floatSeq
-//        
-//        VerifyPSeqsEqual floatSeq cacheFloat
-//        
-//        // decimal Seq
-//        let decimalSeq:seq<decimal> = seq [ 0M; 19M; 19.03M]
-//        
-//        let cacheDecimal = PSeq.cache decimalSeq
-//        
-//        VerifyPSeqsEqual decimalSeq cacheDecimal
-//        
-//        // null Seq
-//        let nullSeq = seq [null]
-//        
-//        let cacheNull = PSeq.cache nullSeq
-//        
-//        VerifyPSeqsEqual nullSeq cacheNull
-//        ()
+ 
+[<Test>]
+let TestCache() =
+    // empty Seq 
+    let emptySeq:pseq<double> = PSeq.empty<double>
+    let cacheEmpty = PSeq.cache emptySeq
+    let expectedResultEmpty = PSeq.empty
+    VerifyPSeqsEqual expectedResultEmpty cacheEmpty
+               
+    // double Seq
+    let doubleSeq:seq<double> = seq [1.0;2.2;2.5;4.3]
+    let cacheDouble = PSeq.cache doubleSeq
+    VerifyPSeqsEqual doubleSeq cacheDouble
+            
+    // float32 Seq
+    let floatSeq:seq<float32> = seq [ 2.0f;4.4f;5.0f;8.6f]
+    let cacheFloat = PSeq.cache floatSeq
+    VerifyPSeqsEqual floatSeq cacheFloat
+        
+    // decimal Seq
+    let decimalSeq:seq<decimal> = seq [ 0M; 19M; 19.03M]
+    let cacheDecimal = PSeq.cache decimalSeq
+    VerifyPSeqsEqual decimalSeq cacheDecimal
+        
+    // null Seq
+    let nullSeq = seq [null]
+    let cacheNull = PSeq.cache nullSeq
+    VerifyPSeqsEqual nullSeq cacheNull
+
+    //  length cache 
+    let count = 32
+    let i = ref 0
+    let s = PSeq.init count (fun _ -> Interlocked.Increment(i)) |> PSeq.cache
+    Assert.AreEqual(count, PSeq.length s)
+
+    //multiple iterations
+    s |> PSeq.iter ignore
+    s |> PSeq.iter ignore
+    Assert.AreEqual(count, !i)
+    ()
 
 [<Test>]
 let TestCase() =
@@ -1915,7 +1916,7 @@ let TestZip() =
     CheckThrowsArgumentNullException(fun() -> PSeq.zip null (seq [1..7]) |> ignore)
     CheckThrowsArgumentNullException(fun() -> PSeq.zip (seq [1..7]) null |> ignore)
     ()
-        
+    
 //    [<Test>]
 //    let TestZip3() =
 //        // integer Seq
