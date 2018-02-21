@@ -175,3 +175,6 @@ TestResults.xml
 
 # Nuget outputs
 nuget/*.nupkg
+
+.vs
+.vscode
