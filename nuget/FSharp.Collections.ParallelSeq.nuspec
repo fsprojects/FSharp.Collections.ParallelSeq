@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+<package 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata 
+    xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>@project@</id>
     <version>@build.number@</version>
     <authors>@authors@</authors>
@@ -12,16 +15,14 @@
     <summary>@summary@</summary>
     <description>@description@</description>
     <releaseNotes>@releaseNotes@</releaseNotes>
-    <copyright>Copyright 2013</copyright>
+    <copyright>Copyright 2018</copyright>
     <tags>@tags@</tags>
     <dependencies />
   </metadata>
   <files>
-    <file src="..\bin\FSharp.Collections.ParallelSeq.dll" target="lib/net40" />
-    <file src="..\bin\FSharp.Collections.ParallelSeq.xml" target="lib/net40" />
-    <file src="..\bin\FSharp.Collections.ParallelSeq.pdb" target="lib/net40" />
-    <file src="..\bin\profile7\FSharp.Collections.ParallelSeq.dll" target="lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1" />
-    <file src="..\bin\profile7\FSharp.Collections.ParallelSeq.xml" target="lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1" />
-    <file src="..\bin\profile7\FSharp.Collections.ParallelSeq.pdb" target="lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1" />
+    <file src="..\bin\net45\FSharp.Collections.ParallelSeq.dll" target="lib/net45" />
+    <file src="..\bin\net45\FSharp.Collections.ParallelSeq.xml" target="lib/net45" />
+    <file src="..\bin\netstandard2.0\FSharp.Collections.ParallelSeq.dll" target="lib/netstandard2.0" />
+    <file src="..\bin\netstandard2.0\FSharp.Collections.ParallelSeq.xml" target="lib/netstandard2.0" />
   </files>
 </package>
