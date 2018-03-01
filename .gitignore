@@ -181,3 +181,6 @@ nuget/*.nupkg
 
 # Paket
 .paket/paket.exe
+
+# FAKE
+.fake/
