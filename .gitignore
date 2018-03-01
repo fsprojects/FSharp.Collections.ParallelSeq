@@ -178,3 +178,6 @@ nuget/*.nupkg
 
 .vs
 .vscode
+
+# Paket
+.paket/paket.exe
