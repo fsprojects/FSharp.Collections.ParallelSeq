@@ -12,6 +12,7 @@
     <DocumentationFile>..\..\bin\FSharp.Collections.ParallelSeq.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
     <Compile Include="pseq.fsi" />
     <Compile Include="pseq.fs" />
   </ItemGroup>
