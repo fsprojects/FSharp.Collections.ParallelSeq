@@ -28,7 +28,7 @@ To build and test:
 To make a release:
 
     build.cmd Release 
-    .nuget\nuget.exe push bin\<the-nuget-package>  API-KEY
+    .paket\paket.exe push temp\<the-nuget-package>  --api-key <API-KEY> --url <push target>
     
 If you are a maintainer don't have the necessary permissions to push, then [add an admin issue](https://github.com/fsprojects/FsProjectsAdmin/issues) giving your nuget ID.
 
