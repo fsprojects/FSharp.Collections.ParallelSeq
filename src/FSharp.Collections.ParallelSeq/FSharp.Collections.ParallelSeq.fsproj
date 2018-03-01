@@ -15,5 +15,6 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="pseq.fsi" />
     <Compile Include="pseq.fs" />
+    <None Include="paket.template" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,8 @@
+type project
+Authors Microsoft, F# Software Foundation
+
+files 
+	../../bin/netstandard2.0/FSharp.Collections.ParallelSeq.dll ==> lib/netstandard2.0
+	../../bin/netstandard2.0/FSharp.Collections.ParallelSeq.xml ==> lib/netstandard2.0
+	../../bin/net45/FSharp.Collections.ParallelSeq.dll ==> lib/net45
+	../../bin/net45/FSharp.Collections.ParallelSeq.xml ==> lib/net45
