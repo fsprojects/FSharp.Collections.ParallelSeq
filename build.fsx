@@ -35,7 +35,7 @@ let description = """
  System.Linq.ParallelEnumerable class. The API is akin to F# operations on sequences.
  """
 // List of author names (for NuGet package)
-let authors = [ "Microsoft"; "F# Software Foundation" ]
+let authors = [ "F# Community Contributors" ]
 // Tags for your project (for NuGet package)
 let tags = "F# fsharp programming parallel multi-core collections sequence"
 
