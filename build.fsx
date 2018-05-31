@@ -101,8 +101,7 @@ Target "RunTests" (fun _ ->
 // Build a NuGet package
 
 Target "NuGet" (fun _ ->
-    Paket.Pack id
-)
+    Fake.DotNetCli.Pack (fun c -> { c with AdditionalArgs = ["/p:VersionPrefix="+release.NugetVersion] }))
 
 // --------------------------------------------------------------------------------------
 // Generate the documentation
