@@ -5,13 +5,13 @@ open System.Reflection
 [<assembly: AssemblyTitleAttribute("FSharp.Collections.ParallelSeq")>]
 [<assembly: AssemblyProductAttribute("FSharp.Collections.ParallelSeq")>]
 [<assembly: AssemblyDescriptionAttribute("Parallel sequence operators for F#.")>]
-[<assembly: AssemblyVersionAttribute("1.1.0")>]
-[<assembly: AssemblyFileVersionAttribute("1.1.0")>]
+[<assembly: AssemblyVersionAttribute("1.1.1")>]
+[<assembly: AssemblyFileVersionAttribute("1.1.1")>]
 do ()
 
 module internal AssemblyVersionInformation =
     let [<Literal>] AssemblyTitle = "FSharp.Collections.ParallelSeq"
     let [<Literal>] AssemblyProduct = "FSharp.Collections.ParallelSeq"
     let [<Literal>] AssemblyDescription = "Parallel sequence operators for F#."
-    let [<Literal>] AssemblyVersion = "1.1.0"
-    let [<Literal>] AssemblyFileVersion = "1.1.0"
+    let [<Literal>] AssemblyVersion = "1.1.1"
+    let [<Literal>] AssemblyFileVersion = "1.1.1"
