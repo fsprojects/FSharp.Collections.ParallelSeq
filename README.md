@@ -28,7 +28,8 @@ To build and test:
 To make a release:
 
     build.cmd Release 
-    .paket\paket.exe push temp\<the-nuget-package>  --api-key <API-KEY> --url <push target>
+    set APIKEY=...
+    .paket\paket.exe push src\FSharp.Collections.ParallelSeq\bin\Release\FSharp.Collections.ParallelSeq.1.1.2.nupkg --api-key %APIKEY% --url https://nuget.org
     
 If you are a maintainer don't have the necessary permissions to push, then [add an admin issue](https://github.com/fsprojects/FsProjectsAdmin/issues) giving your nuget ID.
 

@@ -3,15 +3,10 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <Tailcalls>true</Tailcalls>
-    <OutputPath>..\..\bin</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
-    <DocumentationFile>..\..\bin\FSharp.Collections.ParallelSeq.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="FSharp.Core" Version="4.0.0.1" Condition="'$(TargetFramework)' == 'net45'" />
+    <PackageReference Include="FSharp.Core" Version="4.3.4" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="pseq.fsi" />
     <Compile Include="pseq.fs" />
