@@ -1,4 +1,4 @@
-#### 1.1.1 - May 31, 2018
+#### 1.1.2 - May 31, 2018
 * Clarify package authors
 * Make FSharp.Core dependency explicit
 * Use "dotnet" to pack package

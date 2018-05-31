@@ -493,8 +493,8 @@ let TestExists() =
 let TestExists2() =
     // Integer Seq
     let funcInt x y = (x+y)%3=0 
-    let Intexists2Seq1 =  seq [1;3;7]
-    let Intexists2Seq2 = seq [1;6;3]
+    let Intexists2Seq1 =  seq [1;3;7] |> PSeq.ordered
+    let Intexists2Seq2 = seq [1;6;3] |> PSeq.ordered
             
     let ifExist2Int = PSeq.exists2 funcInt Intexists2Seq1 Intexists2Seq2
     Assert.IsTrue( ifExist2Int)
@@ -507,7 +507,7 @@ let TestExists2() =
     Assert.IsTrue(ifexists2Str)
         
     // Empty Seq
-    let emptySeq = PSeq.empty
+    let emptySeq = PSeq.empty 
     let ifexists2Empty = PSeq.exists2 funcInt emptySeq emptySeq
     Assert.IsFalse( ifexists2Empty)
        
