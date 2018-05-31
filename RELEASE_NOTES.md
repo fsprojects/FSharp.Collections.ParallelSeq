@@ -1,5 +1,6 @@
 #### 1.1.1 - May 31, 2018
 * Clarify package authors
+* Make FSharp.Core dependency explicit
 
 #### 1.1.0 - February 26, 2018
 * Changes target frameworks to .NET Standard 2.0 and .NET Framework 4.5
