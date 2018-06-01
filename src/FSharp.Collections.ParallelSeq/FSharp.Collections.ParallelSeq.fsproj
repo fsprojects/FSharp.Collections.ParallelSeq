@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <Authors>F# Community Contributors</Authors>
+    <Description>Provides an F#-style API for parallel operations on sequences that are part in .NET 4.0 as System.Linq.ParallelEnumerable class. The API is akin to F# operations on sequences.</Description>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
   </PropertyGroup>
