@@ -2,16 +2,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>FSharp.Collections.ParallelSeq</PackageId>
+    <Title>FSharp.Collections.ParallelSeq</Title>
     <Authors>F# Community Contributors</Authors>
     <Owners>F# Community Contributors</Owners>
     <Version>1.1.3</Version>
-    <PackageLicenseUrl>http://github.com/fsprojects/FSharp.Collections.ParallelSeq/blob/master/LICENSE.txt</PackageLicenseUrl>
-    <RepositoryUrl>http://fsprojects.github.com/FSharp.Collections.ParallelSeq</RepositoryUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/fsprojects/FSharp.Collections.ParallelSeq/master/docs/files/img/logo.png</PackageIconUrl>
-    <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+    <PackageProjectUrl>http://fsprojects.github.io/FSharp.Collections.ParallelSeq/</PackageProjectUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <RepositoryUrl>https://fsprojects.github.com/FSharp.Collections.ParallelSeq</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Provides an F#-style API for parallel operations on sequences that are part in .NET 4.0 as System.Linq.ParallelEnumerable class. The API is akin to F# operations on sequences.</Description>
     <PackageReleaseNotes>Changes target frameworks to .NET Standard 2.0 and .NET Framework 4.5</PackageReleaseNotes>
-    <Copyright>Copyright 2018</Copyright>
+    <Copyright>Copyright 2020</Copyright>
     <PackageTags>F# fsharp programming parallel multi-core collections sequence</PackageTags>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
@@ -19,6 +22,7 @@
   <ItemGroup>
     <Compile Include="pseq.fsi" />
     <Compile Include="pseq.fs" />
+    <Content Include="..\..\docs\files\img\logo.png" Link="logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>
 
