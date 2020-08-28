@@ -5,7 +5,7 @@
     <Title>FSharp.Collections.ParallelSeq</Title>
     <Authors>F# Community Contributors</Authors>
     <Owners>F# Community Contributors</Owners>
-    <Version>1.1.3</Version>
+    <Version>1.1.4</Version>
     <PackageProjectUrl>http://fsprojects.github.io/FSharp.Collections.ParallelSeq/</PackageProjectUrl>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <RepositoryUrl>https://fsprojects.github.com/FSharp.Collections.ParallelSeq</RepositoryUrl>
