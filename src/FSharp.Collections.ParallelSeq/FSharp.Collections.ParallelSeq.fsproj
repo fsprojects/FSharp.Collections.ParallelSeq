@@ -17,6 +17,7 @@
     <Copyright>Copyright 2020</Copyright>
     <PackageTags>F# fsharp programming parallel multi-core collections sequence</PackageTags>
     <OutputType>Library</OutputType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
