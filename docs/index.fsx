@@ -7,25 +7,14 @@
 F# Parallel Sequences
 ===================
 
-This library provides an F#-style API for the parallel operations on sequences from the
-System.Linq.ParallelEnumerable class in .NET 4.0. The API is akin to F# operations on sequences.
+This package provides an F#-style API for the parallel operations on sequences from the
+System.Linq.ParallelEnumerable class in .NET. The API is akin to F# operations on sequences.
 
-
-<div class="row">
-  <div class="span1"></div>
-  <div class="span6">
-    <div class="well well-small" id="nuget">
-      The F# FSharp.Collections.ParallelSeq library can be <a href="https://nuget.org/packages/FSharp.Collections.ParallelSeq">installed from NuGet</a>:
-      <pre>PM> Install-Package FSharp.Collections.ParallelSeq</pre>
-    </div>
-  </div>
-  <div class="span1"></div>
-</div>
 
 Example
 -------
 
-This example demonstrates the use of a function defined in this library.
+This example demonstrates the use of a function defined in this package.
 
 *)
 #r "FSharp.Collections.ParallelSeq.dll"
