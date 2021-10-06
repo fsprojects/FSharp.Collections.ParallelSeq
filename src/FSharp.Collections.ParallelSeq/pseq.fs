@@ -12,244 +12,244 @@ type pseq<'T> = ParallelQuery<'T>
 module PSeq = 
  
     // Converst a seq<'T> to a pseq<'T>.
-    let inline toP (s : seq<'T>) = 
-        match s with
-        | null -> nullArg "s"
+    let inline toP (source : seq<'T>) = 
+        match source with
+        | null -> nullArg "source"
         | :? pseq<'T> as p ->  p
-        | _ -> s.AsParallel()
+        | _ -> source.AsParallel()
 
     // Seq.* functions
     let empty<'T> = 
         ParallelEnumerable.Empty<'T>()
 
-    let length s = 
-        ParallelEnumerable.Count(toP(s))
+    let length source = 
+        ParallelEnumerable.Count(toP(source))
 
-    let isEmpty s = 
-        not (ParallelEnumerable.Any(toP(s)))
+    let isEmpty source = 
+        not (ParallelEnumerable.Any(toP(source)))
 
-    let singleton x = 
-        ParallelEnumerable.Repeat(x, 1)
+    let singleton value = 
+        ParallelEnumerable.Repeat(value, 1)
 
-    let head s = 
-        ParallelEnumerable.First(toP(s))
+    let head source = 
+        ParallelEnumerable.First(toP(source))
 
-    let truncate n s = 
-        ParallelEnumerable.Take(toP(s), n)
+    let truncate count source = 
+        ParallelEnumerable.Take(toP(source), count)
 
-    let fold<'T, 'State> (f : 'State -> 'T -> 'State) acc s = 
-        ParallelEnumerable.Aggregate(toP(s),acc,Func<_,_,_>(f))
+    let fold<'T, 'State> (folder : 'State -> 'T -> 'State) state source = 
+        ParallelEnumerable.Aggregate(toP(source),state,Func<_,_,_>(folder))
 
-    let reduce f s = 
-        ParallelEnumerable.Aggregate(toP(s), Func<_,_,_>(f))
+    let reduce reduction source = 
+        ParallelEnumerable.Aggregate(toP(source), Func<_,_,_>(reduction))
 
-    let exists p s = 
-        ParallelEnumerable.Any(toP(s), Func<_,_>(p))
+    let exists predicate source = 
+        ParallelEnumerable.Any(toP(source), Func<_,_>(predicate))
 
-    let forall p s = 
-        ParallelEnumerable.All(toP(s), Func<_,_>(p))
+    let forall predicate source = 
+        ParallelEnumerable.All(toP(source), Func<_,_>(predicate))
 
-    let exists2 (f : 'T -> 'U -> bool) s1 s2 = 
-        ParallelEnumerable.Any(ParallelEnumerable.Zip(toP(s1), toP(s2),Func<_,_,_>(f)), Func<_,_>(id))
+    let exists2 (predicate : 'T -> 'U -> bool) source1 source2 = 
+        ParallelEnumerable.Any(ParallelEnumerable.Zip(toP(source1), toP(source2),Func<_,_,_>(predicate)), Func<_,_>(id))
 
-    let forall2 (f : 'T -> 'U -> bool) s1 s2 = 
-        ParallelEnumerable.All(ParallelEnumerable.Zip(toP(s1), toP(s2),Func<_,_,_>(f)), Func<_,_>(id))
+    let forall2 (predicate : 'T -> 'U -> bool) source1 source2 = 
+        ParallelEnumerable.All(ParallelEnumerable.Zip(toP(source1), toP(source2),Func<_,_,_>(predicate)), Func<_,_>(id))
 
-    let filter p s = 
-        ParallelEnumerable.Where(toP(s), Func<_,_>(p))
+    let filter predicate source = 
+        ParallelEnumerable.Where(toP(source), Func<_,_>(predicate))
 
-    let iter f s = 
-        ParallelEnumerable.ForAll(toP(s), Action<_>(f))
+    let iter action source = 
+        ParallelEnumerable.ForAll(toP(source), Action<_>(action))
 
-    let map f s  = 
-        ParallelEnumerable.Select(toP(s), new Func<_,_>(f)) 
+    let map mapping source  = 
+        ParallelEnumerable.Select(toP(source), new Func<_,_>(mapping)) 
 
-    let pick f s = 
-        let projected = ParallelEnumerable.Select(toP(s),Func<_,_>(f))
+    let pick chooser source = 
+        let projected = ParallelEnumerable.Select(toP(source),Func<_,_>(chooser))
         let res = ParallelEnumerable.FirstOrDefault(projected, Func<_,_>(Option.isSome))
         match res with 
         | Some x -> x
         | None -> raise (new System.Collections.Generic.KeyNotFoundException())
 
-    let find p s = 
-        ParallelEnumerable.First(toP(s), Func<_,_>(p))
+    let find predicate source = 
+        ParallelEnumerable.First(toP(source), Func<_,_>(predicate))
 
-    let tryFind p s = 
-        let withSomes = ParallelEnumerable.Select(toP(s), Func<_,_>(Some))
-        ParallelEnumerable.FirstOrDefault(withSomes, Func<_,_>(fun x -> p(Option.get(x))))
+    let tryFind predicate source = 
+        let withSomes = ParallelEnumerable.Select(toP(source), Func<_,_>(Some))
+        ParallelEnumerable.FirstOrDefault(withSomes, Func<_,_>(fun x -> predicate(Option.get(x))))
 
-    let findIndex p s = 
-        let indexed = ParallelEnumerable.Select(toP(s), Func<_,int,_>(fun x i -> (i,x)))
-        match ParallelEnumerable.First(indexed, Func<_,_>(fun (_,x) -> p(x))) with
+    let findIndex predicate source = 
+        let indexed = ParallelEnumerable.Select(toP(source), Func<_,int,_>(fun x i -> (i,x)))
+        match ParallelEnumerable.First(indexed, Func<_,_>(fun (_,x) -> predicate(x))) with
         | (i,x) -> i
 
-    let tryFindIndex p s = 
-         let indexed = ParallelEnumerable.Select(toP(s), Func<_,int,_>(fun x i -> Some (i,x)))
-         match ParallelEnumerable.FirstOrDefault(indexed, Func<_,_>(fun x -> p(snd(Option.get x)))) with
+    let tryFindIndex predicate source = 
+         let indexed = ParallelEnumerable.Select(toP(source), Func<_,int,_>(fun x i -> Some (i,x)))
+         match ParallelEnumerable.FirstOrDefault(indexed, Func<_,_>(fun x -> predicate(snd(Option.get x)))) with
          | Some (i,x) -> Some i
          | None -> None
 
-    let ofArray (arr : 'T array) = 
-        arr.AsParallel()
+    let ofArray (source : 'T array) = 
+        source.AsParallel()
 
-    let toArray s = 
-        ParallelEnumerable.ToArray(toP(s))
+    let toArray source = 
+        ParallelEnumerable.ToArray(toP(source))
 
-    let ofList (l : 'T list) = 
-        l.AsParallel()
+    let ofList (source : 'T list) = 
+        source.AsParallel()
 
-    let toList (s : seq<'T>) = 
-        toP(s) |> List.ofSeq
+    let toList (source : seq<'T>) = 
+        toP(source) |> List.ofSeq
 
-    let ofSeq (s : seq<'T>)  = 
-        s.AsParallel()
+    let ofSeq (source : seq<'T>)  = 
+        source.AsParallel()
 
-    let toSeq s = 
-        toP(s).AsSequential()
+    let toSeq source = 
+        toP(source).AsSequential()
 
-    let cast<'T> (s : System.Collections.IEnumerable) : pseq<'T> = 
-        ParallelEnumerable.Cast<'T>(s.AsParallel())    
+    let cast<'T> (source : System.Collections.IEnumerable) : pseq<'T> = 
+        ParallelEnumerable.Cast<'T>(source.AsParallel())    
 
-    let collect f s = 
-        ParallelEnumerable.SelectMany(toP(s), Func<_,_>(fun x -> (f x) :> seq<'U>))
+    let collect mapping source = 
+        ParallelEnumerable.SelectMany(toP(source), Func<_,_>(fun x -> (mapping x) :> seq<'U>))
 
-    let append s1 s2 = 
-        ParallelEnumerable.Concat(toP(s1),toP(s2))
+    let append source1 source2 = 
+        ParallelEnumerable.Concat(toP(source1),toP(source2))
 
-    let init n f = 
-        ParallelEnumerable.Select(ParallelEnumerable.Range(0, n), Func<_,_>(f))
+    let init count initializer = 
+        ParallelEnumerable.Select(ParallelEnumerable.Range(0, count), Func<_,_>(initializer))
 
-    let iter2 f s1 s2 = 
-        ParallelEnumerable.Zip(toP(s1),toP(s2), Func<_,_,_>(fun x y -> do f x y )) |> ignore
+    let iter2 action source1 source2 = 
+        ParallelEnumerable.Zip(toP(source1),toP(source2), Func<_,_,_>(fun x y -> do action x y )) |> ignore
 
-    let nth n s = 
-        ParallelEnumerable.ElementAt(toP(s), n)
+    let nth index source = 
+        ParallelEnumerable.ElementAt(toP(source), index)
 
-    let map2 f s1 s2 = 
-        ParallelEnumerable.Zip(toP(s1),toP(s2), Func<_,_,_>(fun x y -> f x y))
+    let map2 mapping source1 source2 = 
+        ParallelEnumerable.Zip(toP(source1),toP(source2), Func<_,_,_>(fun x y -> mapping x y))
 
-    let zip s1 s2 = 
-        ParallelEnumerable.Zip(toP(s1),toP(s2), Func<_,_,_>(fun x y -> (x,y)))
+    let zip source1 source2 = 
+        ParallelEnumerable.Zip(toP(source1),toP(source2), Func<_,_,_>(fun x y -> (x,y)))
 
-    let mapi f s = 
-        ParallelEnumerable.Select(toP(s), new Func<_,_,_>(fun i c -> f c i))
+    let mapi mapping source = 
+        ParallelEnumerable.Select(toP(source), new Func<_,_,_>(fun i c -> mapping c i))
 
-    let iteri f s = 
-        let indexed = ParallelEnumerable.Select(toP(s), Func<_,_,_>(fun x i -> (x,i)))
-        ParallelEnumerable.ForAll(indexed, Action<_>(fun (x,i) -> f i x))
+    let iteri action source = 
+        let indexed = ParallelEnumerable.Select(toP(source), Func<_,_,_>(fun x i -> (x,i)))
+        ParallelEnumerable.ForAll(indexed, Action<_>(fun (x,i) -> action i x))
 
-    let takeWhile f s = 
-        ParallelEnumerable.TakeWhile(toP(s), Func<_,_>(f))
+    let takeWhile predicate source = 
+        ParallelEnumerable.TakeWhile(toP(source), Func<_,_>(predicate))
 
-    let skip n s = 
-        ParallelEnumerable.Skip(toP(s), n)
+    let skip count source = 
+        ParallelEnumerable.Skip(toP(source), count)
 
-    let skipWhile f s = 
-        ParallelEnumerable.SkipWhile(toP(s), Func<_,_>(f))
+    let skipWhile predicate source = 
+        ParallelEnumerable.SkipWhile(toP(source), Func<_,_>(predicate))
 
-    let groupBy (f : 'T -> 'Key) s = 
-        ParallelEnumerable.GroupBy(toP(s),Func<_,_>(f), Func<_,_,_>(fun k v -> (k, v)), HashIdentity.Structural<_>)  
+    let groupBy (projection : 'T -> 'Key) source = 
+        ParallelEnumerable.GroupBy(toP(source),Func<_,_>(projection), Func<_,_,_>(fun k v -> (k, v)), HashIdentity.Structural<_>)  
 
-    let distinct s = 
-        ParallelEnumerable.Distinct(toP(s), HashIdentity.Structural<_>)
+    let distinct source = 
+        ParallelEnumerable.Distinct(toP(source), HashIdentity.Structural<_>)
 
-    let distinctBy p s = 
+    let distinctBy projection source = 
         let comparer = 
             { new System.Collections.Generic.IEqualityComparer<'T * 'Key> with
                 member this.Equals(((_, p1)),((_,p2))) = p1 = p2
                 member this.GetHashCode((_,p1)) = p1.GetHashCode() }
-        let projected = ParallelEnumerable.Select(toP(s), Func<_,_>(fun x -> (x, p x)))
+        let projected = ParallelEnumerable.Select(toP(source), Func<_,_>(fun x -> (x, projection x)))
         let distinct = ParallelEnumerable.Distinct(projected, comparer)
         ParallelEnumerable.Select(distinct, Func<_,_>(fun (x,px) -> x))
 
-    let sort s  = 
-        ParallelEnumerable.OrderBy(toP(s), Func<_,_>(fun x -> x), ComparisonIdentity.Structural<_>) :> pseq<'T>
+    let sort source  = 
+        ParallelEnumerable.OrderBy(toP(source), Func<_,_>(fun x -> x), ComparisonIdentity.Structural<_>) :> pseq<'T>
 
-    let sortBy (f : 'T -> 'Key) s = 
-        ParallelEnumerable.OrderBy(toP(s), Func<_,_>(f), ComparisonIdentity.Structural<_>) :> pseq<'T>
+    let sortBy (projection : 'T -> 'Key) source = 
+        ParallelEnumerable.OrderBy(toP(source), Func<_,_>(projection), ComparisonIdentity.Structural<_>) :> pseq<'T>
 
-    let countBy f s = 
-        ParallelEnumerable.GroupBy(toP(s), Func<_,_>(f), Func<_,_,_>(fun k vs -> (k, Seq.length vs)))
+    let countBy projection source = 
+        ParallelEnumerable.GroupBy(toP(source), Func<_,_>(projection), Func<_,_,_>(fun k vs -> (k, Seq.length vs)))
 
-    let concat ss = 
-        ParallelEnumerable.Aggregate(toP(ss), empty, Func<_,_,_>(fun soFar y -> append soFar (toP y) : pseq<_>))
+    let concat sources = 
+        ParallelEnumerable.Aggregate(toP(sources), empty, Func<_,_,_>(fun soFar y -> append soFar (toP y) : pseq<_>))
 
-    let choose chooser s = 
-        let projected = ParallelEnumerable.Select(toP(s), Func<_,_>(chooser))
+    let choose chooser source = 
+        let projected = ParallelEnumerable.Select(toP(source), Func<_,_>(chooser))
         let somes = ParallelEnumerable.Where(projected, Func<_,_>(Option.isSome))
         ParallelEnumerable.Select(somes, Func<_,_>(Option.get))
 
-    let inline average (s : seq< ^T >) : ^T 
+    let inline average (source : seq< ^T >) : ^T 
               when ^T : (static member ( + ) : ^T * ^T -> ^T) 
               and  ^T : (static member DivideByInt : ^T * int -> ^T) 
               and  ^T : (static member Zero : ^T) = 
-        match s with
-        | null -> nullArg "s"
-        | :? seq<float> as s -> unbox(ParallelEnumerable.Average(toP(s)))
-        | :? seq<float32> as s -> unbox(ParallelEnumerable.Average(toP(s)))
-        | :? seq<decimal> as s -> unbox(ParallelEnumerable.Average(toP(s)))
-        | _ -> failwithf "Average is supported for element types float, float32 and decimal, but given type : %s" (typeof<(^T)>.ToString())
+        match source with
+        | null -> nullArg "source"
+        | :? seq<float> as source -> unbox(ParallelEnumerable.Average(toP(source)))
+        | :? seq<float32> as source -> unbox(ParallelEnumerable.Average(toP(source)))
+        | :? seq<decimal> as source -> unbox(ParallelEnumerable.Average(toP(source)))
+        | _ -> failwithf "Average is supported for element types float, float32 and decimal, but given type : %source" (typeof<(^T)>.ToString())
 
-    let inline averageBy (f : 'T -> ^U) (s : seq< 'T >) : ^U 
+    let inline averageBy (projection : 'T -> ^U) (source : seq< 'T >) : ^U 
             when ^U : (static member ( + ) : ^U * ^U -> ^U) 
             and  ^U : (static member DivideByInt : ^U * int -> ^U) 
             and  ^U : (static member Zero : ^U) =
         let bType = typeof<(^U)>
-        if   bType = typeof<float> then unbox(ParallelEnumerable.Average(toP(s), Func<_,float>(fun x -> unbox(f x))))
-        elif bType = typeof<float32> then unbox(ParallelEnumerable.Average(toP(s), Func<_,float32>(fun x -> unbox(f x))))
-        elif bType = typeof<decimal> then unbox(ParallelEnumerable.Average(toP(s), Func<_,decimal>(fun x -> unbox(f x))))
-        else failwithf "AverageBy is supported for projections to types float, float32 and decimal, but used at type type : %s" (bType.ToString())
+        if   bType = typeof<float> then unbox(ParallelEnumerable.Average(toP(source), Func<_,float>(fun x -> unbox(projection x))))
+        elif bType = typeof<float32> then unbox(ParallelEnumerable.Average(toP(source), Func<_,float32>(fun x -> unbox(projection x))))
+        elif bType = typeof<decimal> then unbox(ParallelEnumerable.Average(toP(source), Func<_,decimal>(fun x -> unbox(projection x))))
+        else failwithf "AverageBy is supported for projections to types float, float32 and decimal, but used at type type : %source" (bType.ToString())
 
-    let inline sum (s : seq< ^T >) : ^T 
+    let inline sum (source : seq< ^T >) : ^T 
             when ^T : (static member ( + ) : ^T * ^T -> ^T) 
             and  ^T : (static member Zero : ^T) = 
-        match s with
-        | null -> nullArg "s"
-        | :? seq<int> as s -> unbox(ParallelEnumerable.Sum(toP(s)))
-        | :? seq<int64> as s -> unbox(ParallelEnumerable.Sum(toP(s)))
-        | :? seq<float> as s -> unbox(ParallelEnumerable.Sum(toP(s)))
-        | :? seq<float32> as s -> unbox(ParallelEnumerable.Sum(toP(s)))
-        | :? seq<decimal> as s -> unbox(ParallelEnumerable.Sum(toP(s)))
-        | _ -> failwithf "Sum is supported for element types int, int64, float, float32 and decimal, but given type : %s" (typeof<(^T)>.ToString())
+        match source with
+        | null -> nullArg "source"
+        | :? seq<int> as source -> unbox(ParallelEnumerable.Sum(toP(source)))
+        | :? seq<int64> as source -> unbox(ParallelEnumerable.Sum(toP(source)))
+        | :? seq<float> as source -> unbox(ParallelEnumerable.Sum(toP(source)))
+        | :? seq<float32> as source -> unbox(ParallelEnumerable.Sum(toP(source)))
+        | :? seq<decimal> as source -> unbox(ParallelEnumerable.Sum(toP(source)))
+        | _ -> failwithf "Sum is supported for element types int, int64, float, float32 and decimal, but given type : %source" (typeof<(^T)>.ToString())
 
-    let inline sumBy (f : 'T -> ^U) (s : seq< 'T >) : ^U  
+    let inline sumBy (projection : 'T -> ^U) (source : seq< 'T >) : ^U  
             when ^U : (static member ( + ) : ^U * ^U -> ^U) 
             and  ^U : (static member Zero : ^U) = 
         let bType = typeof<(^U)>
-        if   bType = typeof<int> then unbox(ParallelEnumerable.Sum(toP(s), Func<_,int>(fun x -> unbox(f x))))
-        elif bType = typeof<int64> then unbox(ParallelEnumerable.Sum(toP(s), Func<_,int64>(fun x -> unbox(f x))))        
-        elif bType = typeof<float> then unbox(ParallelEnumerable.Sum(toP(s), Func<_,float>(fun x -> unbox(f x))))
-        elif bType = typeof<float32> then unbox(ParallelEnumerable.Sum(toP(s), Func<_,float32>(fun x -> unbox(f x))))
-        elif bType = typeof<decimal> then unbox(ParallelEnumerable.Sum(toP(s), Func<_,decimal>(fun x -> unbox(f x))))
-        else failwithf "SumBy is supported for projections to types int, int64, float, float32 and decimal, but given type : %s" (bType.ToString())
+        if   bType = typeof<int> then unbox(ParallelEnumerable.Sum(toP(source), Func<_,int>(fun x -> unbox(projection x))))
+        elif bType = typeof<int64> then unbox(ParallelEnumerable.Sum(toP(source), Func<_,int64>(fun x -> unbox(projection x))))        
+        elif bType = typeof<float> then unbox(ParallelEnumerable.Sum(toP(source), Func<_,float>(fun x -> unbox(projection x))))
+        elif bType = typeof<float32> then unbox(ParallelEnumerable.Sum(toP(source), Func<_,float32>(fun x -> unbox(projection x))))
+        elif bType = typeof<decimal> then unbox(ParallelEnumerable.Sum(toP(source), Func<_,decimal>(fun x -> unbox(projection x))))
+        else failwithf "SumBy is supported for projections to types int, int64, float, float32 and decimal, but given type : %source" (bType.ToString())
 
-    let inline min (s : seq< ^T > ) : ^T when ^T : comparison =    
-        match s with
-        | null -> nullArg "s"
-        | :? seq<int> as s -> unbox(ParallelEnumerable.Min(toP(s)))
-        | :? seq<int64> as s -> unbox(ParallelEnumerable.Min(toP(s)))
-        | :? seq<float> as s -> unbox(ParallelEnumerable.Min(toP(s)))
-        | :? seq<float32> as s -> unbox(ParallelEnumerable.Min(toP(s)))
-        | :? seq<decimal> as s -> unbox(ParallelEnumerable.Min(toP(s)))
-        | _ ->  ParallelEnumerable.Min(toP(s), Func<_,_>(fun x -> x))
+    let inline min (source : seq< ^T > ) : ^T when ^T : comparison =    
+        match source with
+        | null -> nullArg "source"
+        | :? seq<int> as source -> unbox(ParallelEnumerable.Min(toP(source)))
+        | :? seq<int64> as source -> unbox(ParallelEnumerable.Min(toP(source)))
+        | :? seq<float> as source -> unbox(ParallelEnumerable.Min(toP(source)))
+        | :? seq<float32> as source -> unbox(ParallelEnumerable.Min(toP(source)))
+        | :? seq<decimal> as source -> unbox(ParallelEnumerable.Min(toP(source)))
+        | _ ->  ParallelEnumerable.Min(toP(source), Func<_,_>(fun x -> x))
 
-    let inline minBy (f : ^T -> ^U) (s : seq< ^T >) : ^T when ^U : comparison = 
-        let elemsAndVals = ParallelEnumerable.Select(toP(s), Func<_,_>(fun x -> f x, x))
+    let inline minBy (projection : ^T -> ^U) (source : seq< ^T >) : ^T when ^U : comparison = 
+        let elemsAndVals = ParallelEnumerable.Select(toP(source), Func<_,_>(fun x -> projection x, x))
         let (_, elem) = ParallelEnumerable.Aggregate(elemsAndVals, Func<_,_,_>(fun (minVal, minElem) (curVal, curElem) -> if curVal < minVal then (curVal, curElem) else (minVal, minElem)))
         elem
 
-    let inline max (s : seq< ^T >) : ^T =    
-        match s with
-        | null -> nullArg "s"
-        | :? seq<int> as s -> unbox(ParallelEnumerable.Max(toP(s)))
-        | :? seq<int64> as s -> unbox(ParallelEnumerable.Max(toP(s)))
-        | :? seq<float> as s -> unbox(ParallelEnumerable.Max(toP(s)))
-        | :? seq<float32> as s -> unbox(ParallelEnumerable.Max(toP(s)))
-        | :? seq<decimal> as s -> unbox(ParallelEnumerable.Max(toP(s)))
-        | _ ->  ParallelEnumerable.Max(toP(s), Func<_,_>(fun x -> x))
+    let inline max (source : seq< ^T >) : ^T =    
+        match source with
+        | null -> nullArg "source"
+        | :? seq<int> as source -> unbox(ParallelEnumerable.Max(toP(source)))
+        | :? seq<int64> as source -> unbox(ParallelEnumerable.Max(toP(source)))
+        | :? seq<float> as source -> unbox(ParallelEnumerable.Max(toP(source)))
+        | :? seq<float32> as source -> unbox(ParallelEnumerable.Max(toP(source)))
+        | :? seq<decimal> as source -> unbox(ParallelEnumerable.Max(toP(source)))
+        | _ ->  ParallelEnumerable.Max(toP(source), Func<_,_>(fun x -> x))
 
-    let inline maxBy (f : ^T -> ^U) (s : seq< ^T >) : ^T = 
-        let elemsAndVals = ParallelEnumerable.Select(toP(s), Func<_,_>(fun x -> f x, x))
+    let inline maxBy (projection : ^T -> ^U) (source : seq< ^T >) : ^T = 
+        let elemsAndVals = ParallelEnumerable.Select(toP(source), Func<_,_>(fun x -> projection x, x))
         let (_, elem) = ParallelEnumerable.Aggregate(elemsAndVals, Func<_,_,_>(fun (minVal, minElem) (curVal, curElem) -> if curVal > minVal then (curVal, curElem) else (minVal, minElem)))
         elem
 
@@ -270,20 +270,20 @@ module PSeq =
 
 
     // Parallel-specific functionality 
-    let ordered s = 
-        toP(s).AsOrdered()
+    let ordered source = 
+        toP(source).AsOrdered()
 
-    let withDegreeOfParallelism n s = 
-        toP(s).WithDegreeOfParallelism(n)
+    let withDegreeOfParallelism n source = 
+        toP(source).WithDegreeOfParallelism(n)
 
-    let withExecutionMode executionMode s = 
-        toP(s).WithExecutionMode(executionMode)
+    let withExecutionMode executionMode source = 
+        toP(source).WithExecutionMode(executionMode)
 
-    let withMergeOptions mergeOptions s = 
-        toP(s).WithMergeOptions(mergeOptions)
+    let withMergeOptions mergeOptions source = 
+        toP(source).WithMergeOptions(mergeOptions)
     
-    let withCancellation cancellationToken s = 
-        toP(s).WithCancellation(cancellationToken)
+    let withCancellation cancellationToken source = 
+        toP(source).WithCancellation(cancellationToken)
 
-    let cache s = 
-        toP(Seq.cache s)
+    let cache source = 
+        toP(Seq.cache source)

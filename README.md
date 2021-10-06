@@ -11,7 +11,7 @@ Parallel (multi-core) sequence operations. See the documentation: http://fsproje
 
 [![NuGet Status](https://buildstats.info/nuget/FSharp.Collections.ParallelSeq)](https://www.nuget.org/packages/FSharp.Collections.ParallelSeq/)
 
-### Maintainer(s)
+### Maintainer(source)
 
 - [@ChrSteinert](https://github.com/ChrSteinert)
 - [@jamessdixon](https://github.com/jamessdixon)

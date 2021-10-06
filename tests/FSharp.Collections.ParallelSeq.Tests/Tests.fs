@@ -1,7 +1,6 @@
 ﻿module FSharp.Collections.ParallelSeq.Tests
 
 open System
-open System.Collections
 open System.Linq
 open System.Collections.Generic
 open FSharp.Collections.ParallelSeq
@@ -21,7 +20,7 @@ let private CheckThrowsExn<'a when 'a :> exn> (f : unit -> unit) =
         | exn -> Some  (exn.ToString()) // Did now throw a null ref exception!
     match funcThrowsAsExpected with
     | None -> ()
-    | Some s -> Assert.Fail(s)
+    | Some source -> Assert.Fail(source)
 
 let CheckThrowsInvalidOperationExn   f = CheckThrowsExn<InvalidOperationException> f
 let CheckThrowsArgumentNullException f = CheckThrowsExn<ArgumentNullException>    f
@@ -186,12 +185,12 @@ let TestCache() =
     //  length cache 
     let count = 32
     let i = ref 0
-    let s = PSeq.init count (fun _ -> Interlocked.Increment(i)) |> PSeq.cache
-    Assert.AreEqual(count, PSeq.length s)
+    let source = PSeq.init count (fun _ -> Interlocked.Increment(i)) |> PSeq.cache
+    Assert.AreEqual(count, PSeq.length source)
 
     //multiple iterations
-    s |> PSeq.iter ignore
-    s |> PSeq.iter ignore
+    source |> PSeq.iter ignore
+    source |> PSeq.iter ignore
     Assert.AreEqual(count, !i)
     ()
 
@@ -353,7 +352,7 @@ let TestCountBy() =
     VerifyPSeqsEqual expectedIntSeq countIntSeq
          
     // string Seq
-    let funcStrCount_by (s:string) = s.IndexOf("key")
+    let funcStrCount_by (source:string) = source.IndexOf("key")
     let strSeq = seq [ "key";"blank key";"key";"blank blank key"]
        
     let countStrSeq = PSeq.countBy funcStrCount_by strSeq
@@ -434,7 +433,7 @@ let TestDistinctBy () =
     VerifyPSeqsEqual expectedIntSeq mappedBack 
              
     // string Seq
-    let funcStrDistinct (s:string, _) = s.IndexOf("key")
+    let funcStrDistinct (source:string, _) = source.IndexOf("key")
     let strSeq = seq [ ("key", 1); ("blank key", 2); ("key dup", 1); ("blank key dup", 2)]
        
     let DistnctStrSeq = PSeq.distinctBy funcStrDistinct strSeq
@@ -468,7 +467,7 @@ let TestExists() =
     Assert.IsTrue( ifExistInt) 
             
     // String Seq
-    let funcStr (s:string) = s.Contains("key")
+    let funcStr (source:string) = source.Contains("key")
     let strSeq = seq ["key"; "blank key"]
        
     let ifExistStr = PSeq.exists funcStr strSeq
@@ -532,7 +531,7 @@ let TestFilter() =
     VerifyPSeqsEqual expectedfilterInt filterIntSeq
         
     // string Seq
-    let funcStr (s:string) = s.Contains("Expected Content")
+    let funcStr (source:string) = source.Contains("Expected Content")
     let strSeq = seq [ "Expected Content"; "Not Expected"; "Expected Content"; "Not Expected"]
         
     let filterStrSeq = PSeq.filter funcStr strSeq
@@ -569,7 +568,7 @@ let TestFind() =
     Assert.AreEqual(findInt, 5)  
              
     // string Seq
-    let funcStr (s:string) = s.Contains("Expected Content")
+    let funcStr (source:string) = source.Contains("Expected Content")
     let strSeq = seq [ "Expected Content";"Not Expected"]
         
     let findStr = PSeq.find funcStr strSeq
@@ -1089,11 +1088,11 @@ let TestSingletonCollectWithException () =
      
 //    [<Test>]
 //    let TestSystemLinqSelectWithSideEffects () =
-//        this.MapWithSideEffectsTester (fun f s -> System.Linq.ParallelEnumerable.Select(s.AsParallel(), Func<_,_>(f))) false
+//        this.MapWithSideEffectsTester (fun f source -> System.Linq.ParallelEnumerable.Select(source.AsParallel(), Func<_,_>(f))) false
 //        
 [<Test>]
 let TestSystemLinqSelectWithException () =
-    MapWithExceptionTester (fun f s -> System.Linq.ParallelEnumerable.Select(s.AsParallel(), Func<_,_>(f)))
+    MapWithExceptionTester (fun f source -> System.Linq.ParallelEnumerable.Select(source.AsParallel(), Func<_,_>(f)))
 
         
 //    [<Test>]
@@ -1583,9 +1582,9 @@ let TestSortBy() =
         
     // string Seq
     let funcStr (x:string) = x.IndexOf("key")
-    let resultStr =PSeq.sortBy funcStr (seq ["st(key)r";"str(key)";"s(key)tr";"(key)str"])
+    let resultStr =PSeq.sortBy funcStr (seq ["st(key)r";"str(key)";"source(key)tr";"(key)str"])
         
-    let expectedStr = seq ["(key)str";"s(key)tr";"st(key)r";"str(key)"]
+    let expectedStr = seq ["(key)str";"source(key)tr";"st(key)r";"str(key)"]
     VerifyPSeqsEqual expectedStr resultStr
         
     // array Seq

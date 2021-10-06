@@ -1,20 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Library</OutputType>
-    <TargetFrameworks>net45;netcoreapp2.0</TargetFrameworks>
+    <TargetFramework>net5.0</TargetFramework>
     <Optimize>true</Optimize>
+    <IsPackable>false</IsPackable>
+    <GenerateProgramFile>true</GenerateProgramFile>
     <Tailcalls>true</Tailcalls>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Tests.fs" />
-    <ProjectReference Include="..\..\src\FSharp.Collections.ParallelSeq\FSharp.Collections.ParallelSeq.fsproj">
-      <Name>FSharp.Collections.ParallelSeq</Name>
-      <Project>{7e90d6ce-a10b-4858-a5bc-41df7250cbca}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
-    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta7" />
+    <ProjectReference Include="..\..\src\FSharp.Collections.ParallelSeq\FSharp.Collections.ParallelSeq.fsproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="NUnit" Version="3.9.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
   </ItemGroup>

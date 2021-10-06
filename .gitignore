@@ -184,3 +184,5 @@ nuget/*.nupkg
 
 # FAKE
 .fake/
+.fsdocs
+output

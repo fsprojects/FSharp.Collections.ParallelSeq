@@ -225,7 +225,7 @@ namespace FSharp.Collections.ParallelSeq
 
         /// <summary>Operates in parallel, using System.Linq.Parallel. Applies a function to each element of the collection, threading an accumulator argument
         /// through the computation. If the input function is <c>f</c> and the elements are <c>i0...iN</c> 
-        /// then computes <c>f (... (f s i0)...) iN</c></summary>
+        /// then computes <c>f (... (f source i0)...) iN</c></summary>
         ///
         /// <param name="folder">A function that updates the state with each element from the sequence.</param>
         /// <param name="state">The initial state.</param>
@@ -389,7 +389,7 @@ namespace FSharp.Collections.ParallelSeq
         /// the other then the remaining elements of the longer sequence are ignored.</summary>
         ///
         /// <param name="mapping">A function to transform pairs of items from the input sequences.</param>
-        /// <param name="source">The first input sequence.</param>
+        /// <param name="source1">The first input sequence.</param>
         /// <param name="source2">The second input sequence.</param>
         ///
         /// <returns>The result sequence.</returns>
@@ -713,7 +713,7 @@ namespace FSharp.Collections.ParallelSeq
         /// is not typically thread safe and should not be accessed concurrently.</summary>
         ///
         /// <remarks>Once enumeration of the input sequence has started,
-        /// it's enumerator will be kept live by this object until the enumeration has completed.
+        /// it'source enumerator will be kept live by this object until the enumeration has completed.
         /// At that point, the enumerator will be disposed. 
         ///
         /// The enumerator may be disposed and underlying cache storage released by 
