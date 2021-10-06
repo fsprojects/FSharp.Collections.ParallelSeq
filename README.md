@@ -1,5 +1,3 @@
-[![Issue Stats](http://issuestats.com/github/fsprojects/FSharp.Collections.ParallelSeq/badge/issue)](http://issuestats.com/github/fsprojects/FSharp.Collections.ParallelSeq)
-[![Issue Stats](http://issuestats.com/github/fsprojects/FSharp.Collections.ParallelSeq/badge/pr)](http://issuestats.com/github/fsprojects/FSharp.Collections.ParallelSeq)
 
 FSharp.Collections.ParallelSeq
 ==============================
