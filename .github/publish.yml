@@ -28,4 +28,4 @@ jobs:
       run: dotnet nuget push bin/FSharp.Collections.ParallelSeq.*.nupkg -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_ORG_TOKEN_2021 }} --skip-duplicate
 
 # NUGET_ORG_TOKEN_2021 is listed in "Repository secrets" in https://github.com/fsprojects/FSharp.Collections.ParallelSeq/settings/secrets/actions
-# note, the nuget org token expires around 24 July 2022
+# note, the nuget org token expires around 06 October 2022
