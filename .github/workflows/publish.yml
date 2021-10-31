@@ -13,6 +13,8 @@ jobs:
         dotnet-version: '5.0.401'
     - name: Restore tools
       run: dotnet tool restore
+    - name: Check format
+      run: dotnet fantomas src docs tests -r --check
     - name: Restore
       run: dotnet restore
     - name: Build (debug)
